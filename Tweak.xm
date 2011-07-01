@@ -1,9 +1,12 @@
 #import <substrate.h>
 #import <SpringBoard/SpringBoard.h>
 
+@interface NSString (latelyAdded)
+-(BOOL)containsSubstring:(id)substring;
+@end
+
 static BOOL isRingerSwitch;
 static BOOL savedState;
-
 
 extern "C" Boolean CFPreferencesGetAppBooleanValue (CFStringRef key,CFStringRef applicationID,Boolean *keyExistsAndHasValidFormat);
 
@@ -25,6 +28,7 @@ static void getSettings(){
 	isRingerSwitch=[settingsDict valueForKey:@"mode"] ? [[settingsDict valueForKey:@"mode"] boolValue] : YES;
 }
 
+
 %hook SBIconController
 -(void)_finishedUnscattering{
 	%orig;
@@ -35,9 +39,20 @@ static void getSettings(){
 %end
 
 
+
+%hook UIImage
++(id)imageNamed:(id)named{
+	if ([named containsSubstring:@"RotationLocked"] || [named containsSubstring:@"RotationUnlocked"])
+		named= [NSString stringWithFormat:@"RingerSwitchTool%@",named];
+	
+	return %orig;
+}
+%end
+
 %ctor {
 	%init;
 	getSettings();
 	savedState=isRingerSwitch;
 	MSHookFunction(CFPreferencesGetAppBooleanValue,replaced_CFPreferencesGetAppBooleanValue,&orig_CFPreferencesGetAppBooleanValue);
 }
+
