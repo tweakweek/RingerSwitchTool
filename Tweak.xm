@@ -1,5 +1,5 @@
 #import <substrate.h>
-#import <SpringBoard-Class.h>
+#import <SpringBoard/SpringBoard.h>
 
 static BOOL isRingerSwitch;
 static BOOL savedState;
@@ -30,7 +30,7 @@ static void getSettings(){
 	%orig;
 	getSettings();
 	if (savedState!=isRingerSwitch)
-		[[%c(SpringBoard) sharedApplication] relaunchSpringBoard];
+		[(SpringBoard *)[%c(SpringBoard) sharedApplication] relaunchSpringBoard];
 }
 %end
 
