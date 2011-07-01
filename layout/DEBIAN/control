@@ -1,7 +1,7 @@
 Package: net.limneos.ringerswitchtool
 Name: RingerSwitchTool
 Depends: mobilesubstrate, preferenceloader, firmware (>= 4.3)
-Version: 0.1
+Version: 0.2
 Architecture: iphoneos-arm
 Description: Change your ringer switch's functionality!
 Maintainer: Elias Limneos
