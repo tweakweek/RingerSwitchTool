@@ -42,7 +42,8 @@ static void getSettings(){
 
 %hook UIImage
 +(id)imageNamed:(id)named{
-	if ([named containsSubstring:@"RotationLocked"] || [named containsSubstring:@"RotationUnlocked"])
+	%log;
+	if ([named containsSubstring:@"RotationLocked"] || [named containsSubstring:@"RotationUnlocked"] || [named containsSubstring:@"MuteOffButton"]  || [named containsSubstring:@"MuteOnButton"] )
 		named= [NSString stringWithFormat:@"RingerSwitchTool%@",named];
 	
 	return %orig;
